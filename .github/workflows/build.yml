@@ -6,17 +6,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      
-      - name: Install Flet CLI
-        run: pip install flet-cli
+
+      - name: Install dependencies
+        run: |
+          pip install flet-cli
+          pip install -r requirements.txt
 
       - name: Build Android APK
-        run: flet build apk src/main.py --module-name main
+        # 使用 -vv 查看详细错误日志
+        run: flet build apk src/main.py --module-name main -vv
         
-      - name: Save APK as Artifact
+      - name: Save APK
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: f1-app-apk
