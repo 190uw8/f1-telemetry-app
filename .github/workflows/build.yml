@@ -5,25 +5,35 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Java 17
+        # Android 打包必须依赖 Java 环境
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: |
           pip install flet-cli
-          pip install -r requirements.txt
+          # 如果你有 requirements.txt，取消下面这一行的注释：
+          # pip install -r requirements.txt
 
       - name: Build Android APK
-        # 使用 -vv 查看详细错误日志
-        run: flet build apk src/main.py --module-name main -vv
+        # --yes 自动同意下载 Flutter SDK
+        # --module-name 指定入口模块
+        run: flet build apk src/main.py --module-name main --yes -vv
         
-      - name: Save APK
+      - name: Upload APK
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: f1-app-apk
+          name: f1-telemetry-app
           path: build/apk/*.apk
