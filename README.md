@@ -4,3 +4,4 @@ In order to download this apk file, click the .apk file in the codes.
 This is a free app, any paid app might have viruses and have nothing to do with original developer.
 This code can be copied for learning uses, any additional branches have nothing to do with original developer.
 It currently is unusable
+If any unaccepted things happened, developers take 0 responsibility
